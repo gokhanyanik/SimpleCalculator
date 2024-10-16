@@ -9,15 +9,21 @@ import {
 } from 'react-native';
 
 function App(): React.JSX.Element {
-
+// Hesap makinesindeki girilen değerleri tutan bir state oluşturduk.
   const[total,setTotal]=useState("");
-
+// kullanıcının yapacağı işlemleri gerçekleştirmek için aşağıdaki fonk.u oluşturduk.
   const handleButtonPress=(value:string)=>{
+    //İlk koşul eğer c' ye basıldığında setTotal değerini boş yap.
     if(value === "c"){
       setTotal("")
     }else if(value==="back"){
+      //ikinci koşul eğer back tusuna basılırsa geri gitmesi için slice metodu ile bir önceki ifayi 
+      //siler ve yeni oluşan değeri setTotal' e atar.
       setTotal(total.slice(0,-1))
     }else if(value==="="){
+      //üçüncü koşul herhangi bir matematiksel işlem kullanıldığında sonucu bulmak için eval fonk.
+      //ile total değişkeninin içindeki değeri(sitring) javascript kodu olarak işleme alır ve çıkan sonucu
+      // result değişkenine stringe çevirerek atama yapar.Eğer hata yakalarsa catch bloğu hata mesajı verir.
       try{
         const result=eval(total);
         setTotal(String(result));
@@ -25,6 +31,9 @@ function App(): React.JSX.Element {
         setTotal("error");
       }
     }else if(value==="+"){
+      //dördüncü koşulda total değerine '+' ekleyerek değeri güncelleriz
+      //(örneğin 5 ve ardından + ya basıldı total değeri '5+'olacak.ardından 8' e basalım yeni değer
+      //'5+8' olur.)
       setTotal(total+"+")
       
     }else if(value==="-"){
@@ -37,6 +46,8 @@ function App(): React.JSX.Element {
       setTotal(total+"/")
       
     }else{
+      // Burası eğer işlem için bir tuşa basılmadığı zaman çalışır.Yani rakamları yan yana yazmak 
+      // için bu satırı kullanır.
       setTotal(total+value)
     }
 

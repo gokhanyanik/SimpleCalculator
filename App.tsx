@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Toast from 'react-native-toast-message';
 import {
   SafeAreaView,
   StyleSheet,
@@ -8,7 +9,21 @@ import {
   View,
 } from 'react-native';
 
+const ToastWithRef = React.forwardRef((props, ref:any) => (
+  <Toast {...props} ref={ref} />
+));
+
 function App(): React.JSX.Element {
+const showToast=()=>{
+  Toast.show({
+    type:'error',
+    position:'top',
+    text1:'hatalı tuşlama yaptınız...',
+    visibilityTime:3000,
+    autoHide:true,
+    topOffset:30,
+  })
+}
 // Hesap makinesindeki girilen değerleri tutan bir state oluşturduk.
   const[total,setTotal]=useState("");
 // kullanıcının yapacağı işlemleri gerçekleştirmek için aşağıdaki fonk.u oluşturduk.
@@ -28,7 +43,10 @@ function App(): React.JSX.Element {
         const result=eval(total);
         setTotal(String(result));
       }catch(error){
+        showToast();
         setTotal("error");
+        
+        
       }
     }else if(value==="+"){
       //dördüncü koşulda total değerine '+' ekleyerek değeri güncelleriz
@@ -122,9 +140,9 @@ function App(): React.JSX.Element {
         <TouchableOpacity style={styles.other_button} onPress={()=>handleButtonPress("=")}>
           <Text style={styles.button_text}>=</Text>
         </TouchableOpacity>
-       
+        <Toast ref={(ref)=>Toast.setRef(ref)}/>
       </View>
-
+    
     </SafeAreaView>
   );
 }
